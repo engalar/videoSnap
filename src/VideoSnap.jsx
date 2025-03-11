@@ -1,26 +1,14 @@
-import { createElement, useCallback } from "react";
-
-import { BadgeSample } from "./components/BadgeSample";
 import "./ui/VideoSnap.css";
+import { createElement, useRef, useState, useEffect } from "react";
+import classNames from "classnames";
 
-export function VideoSnap(props) {
-    const { videosnapType, videosnapValue, valueAttribute, onClickAction, style, bootstrapStyle } = props;
-    const onClickHandler = useCallback(() => {
-        if (onClickAction && onClickAction.canExecute) {
-            onClickAction.execute();
-        }
-    }, [onClickAction]);
+import { VideoRecorder } from "./components/VideoRecorder";
 
+
+export function VideoSnap({ className, style }) {
     return (
-        <BadgeSample
-            type={videosnapType}
-            bootstrapStyle={bootstrapStyle}
-            className={props.class}
-            clickable={!!onClickAction}
-            defaultValue={videosnapValue ? videosnapValue : ""}
-            onClickAction={onClickHandler}
-            style={style}
-            value={valueAttribute ? valueAttribute.displayValue : ""}
-        />
+        <div className={classNames("widget-videosnap", className)} style={style}>
+            <VideoRecorder />
+        </div>
     );
 }

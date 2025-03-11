@@ -4,55 +4,69 @@
         xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Video Snap</name>
-    <description>My widget description</description>
+    <description>录制视频或屏幕的PWA组件</description>
     <icon>
         iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAABp1BMVEUAAABV//9mzP9LtP9Ms/9Jtv9NsvdJsfpLtPpJsfdJsfhJsvhJsvdKsvdJsPhKsPhJsfdJsPhJsfdIsfhJsfdIsPdJsfhJsfhJsPhJsPhIsfhIsPdJsPdKsPdKsfdNsvdOsvdPs/dQs/dRtPdStPdTtPdUtfdWtvdXtvdauPdcuPdeufdeufhguvhiu/hju/hkvPhmvfhnvfhpvvhrv/huwPhvwfhxwfhywvhzwvh4xfl5xfl6xfl8xvl9xvl9x/mByPmCyfmFyvmGyvmJzPmKzPmLzfmNzvqPzvqQz/qT0PqU0PqU0fqX0vqY0vqa0/qe1fqg1vqj1/uk1/un2fup2vut2/uv3Puw3Puw3fuz3vu13/u23/u34Pu44Pu64fu64fy84vy94vy+4/y/4/zD5fzE5fzG5vzH5vzI5/zK6PzL6PzR6/zT7P3U7P3V7f3W7f3Y7v3Z7v3c8P3e8f3f8f3g8f3i8v3l8/3l9P3n9P3r9v7t9/7u9/7v+P7w+P7x+f7y+f70+v71+v74/P75/P76/f77/f78/f78/v79/v7+/v7////6dMsRAAAAG3RSTlMAAwURGxwhMTNic3SEh4iVp7XBzejt7vH5/f6PsMNWAAABsklEQVR4AWIYfGAUjIJRMAqYuYREJKWJAqLCPGwY+jnFpEkBEryMqPr5pEkFgkwo9kuTDviR/S9GhgFSHAgDuKXJAQIIA4TIMkAcEY4i0mQBVrgBkuQZwA43QJo8wIFhQEhEOIBQOutHJozDOP5Crp4e1RhkJ0tKGJFd6oNEdtmJyEIzpaZl5nrRZgaHM/2Pf5/vwXXfyagXgG93bwSAlEolowLMm9w83gibhXH2gKKVdD67gTnWjwCk+VVjMQS4suSnnjMLRVFc9sAHvAX2A9fySaXNBMbEZVUWscaHIMRuqwBgD8hDEbnsRmfjUKJkAQZGCTlO/xWBwIADQLIZBlY441MvfoF1xlFS/4fy+bzXKh4dgNJE7L3eh3tmtuWa+AMcMIY3dgUvZQpGEYmMw2kD7HC+R29UqyoXLaBd0QZxzgXgikLLDSqJTKU5HOcS0MsbA9jPqtwCRvXm2eorBbNIJBw3KJ9O4Yl+AAXdnyaLt7PWN3jRWLvzmAVp94zO5+n41/onfo/UpExxZqI0O7NQr0DhIq9Io7hQpbRYp7hiobRqo6ByFcNWuY6CUTAKRgEAo8X0lBD3V30AAAAASUVORK5CYII=
     </icon>
     <properties>
-        <propertyGroup caption="General">
-            <property key="valueAttribute" type="attribute" required="false">
-                <caption>Value attribute</caption>
-                <description>The attribute that contains the videosnap value</description>
+        <propertyGroup caption="常规">
+            <property key="autoStart" type="boolean" defaultValue="false">
+                <caption>自动开始录制</caption>
+                <description>页面加载后自动开始录制</description>
+            </property>
+            <property key="defaultRecordingType" type="enumeration" defaultValue="camera">
+                <caption>默认录制类型</caption>
+                <description>选择默认录制类型</description>
+                <enumerationValues>
+                    <enumerationValue key="camera">摄像头</enumerationValue>
+                    <enumerationValue key="screen">屏幕</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="maxRecordingTime" type="integer" defaultValue="60">
+                <caption>最大录制时间(秒)</caption>
+                <description>设置最大录制时间，0表示无限制</description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="事件">
+            <property key="onRecordingComplete" type="action" required="false">
+                <caption>录制完成时</caption>
+                <description>录制完成后触发的动作</description>
+            </property>
+            <property key="onRecordingStart" type="action" required="false">
+                <caption>录制开始时</caption>
+                <description>录制开始时触发的动作</description>
+            </property>
+            <property key="onError" type="action" required="false">
+                <caption>发生错误时</caption>
+                <description>发生错误时触发的动作</description>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="外观">
+            <property key="showControls" type="boolean" defaultValue="true">
+                <caption>显示控制按钮</caption>
+                <description>是否显示录制控制按钮</description>
+            </property>
+            <property key="buttonStyle" type="enumeration" defaultValue="default">
+                <caption>按钮样式</caption>
+                <description>选择控制按钮的样式</description>
+                <enumerationValues>
+                    <enumerationValue key="default">默认</enumerationValue>
+                    <enumerationValue key="rounded">圆形</enumerationValue>
+                    <enumerationValue key="minimal">简约</enumerationValue>
+                </enumerationValues>
+            </property>
+        </propertyGroup>
+        <propertyGroup caption="数据">
+            <property key="videoAttribute" type="attribute" required="false">
+                <caption>视频属性</caption>
+                <description>存储视频数据的属性(二进制类型)</description>
                 <attributeTypes>
-                    <attributeType name="String"/>
-                    <attributeType name="Enum"/>
-                    <attributeType name="Integer"/>
-                    <attributeType name="Decimal"/>
-                    <attributeType name="Long"/>
+                    <attributeType name="Binary"/>
                 </attributeTypes>
             </property>
-            <property key="videosnapValue" type="string" required="false">
-                <caption>Default value</caption>
-                <description>The videosnap value shown when no value is provided via the attribute</description>
-            </property>
-        </propertyGroup>
-        <propertyGroup caption="Display">
-            <property key="bootstrapStyle" type="enumeration" defaultValue="default">
-                <caption>VideoSnap style</caption>
-                <description>The appearance of the videosnap</description>
-                <enumerationValues>
-                    <enumerationValue key="default">Default</enumerationValue>
-                    <enumerationValue key="primary">Primary</enumerationValue>
-                    <enumerationValue key="success">Success</enumerationValue>
-                    <enumerationValue key="info">Info</enumerationValue>
-                    <enumerationValue key="inverse">Inverse</enumerationValue>
-                    <enumerationValue key="warning">Warning</enumerationValue>
-                    <enumerationValue key="danger">Danger</enumerationValue>
-                </enumerationValues>
-            </property>
-            <property key="videosnapType" type="enumeration" required="true" defaultValue="badge">
-                <caption>Type</caption>
-                <description>Render it as either a badge or a color label</description>
-                <enumerationValues>
-                    <enumerationValue key="badge">Badge</enumerationValue>
-                    <enumerationValue key="label">Label</enumerationValue>
-                </enumerationValues>
-            </property>
-        </propertyGroup>
-        <propertyGroup caption="Events">
-            <property key="onClickAction" type="action" required="false">
-                <caption>On click action</caption>
-                <description>Action to trigger when button / label is clicked</description>
+            <property key="autoSave" type="boolean" defaultValue="false">
+                <caption>自动保存</caption>
+                <description>录制完成后自动保存到数据库</description>
             </property>
         </propertyGroup>
     </properties>
